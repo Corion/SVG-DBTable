@@ -41,6 +41,9 @@ function mkTable(svg,tableInfo) {
             to   : { x: event.detail.event.pageX, y: event.detail.event.pageY }
         };
         console.log("Moved: "+name+" to ",info,event.detail);
+
+        // Also update borders around table groups via group.bbox()
+
     });
     return g;
 }
