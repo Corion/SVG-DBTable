@@ -42,9 +42,30 @@ function mkTable(svg,tableInfo) {
     return g;
 }
 
-var myTable  = mkTable(nodes,{ name:"Table 1", columns:["S1","S2","Langespalte 3"]});
-var myTable2 = mkTable(nodes,{ name:"Table 2", columns:["S1","S2","Langespalte 3a"], x:100, y:100});
-var myTable3 = mkTable(nodes,{ name:"Table 3", columns:["S1","S2","S4","Date"], x:400, y:100});
+var tables = [
+    { name:"Table 1"
+    , columns:["S1","S2","Langespalte 3"]
+    },
+    { name:"Table 2"
+    , columns:["S1","S2","Langespalte 3a"]
+    , x:100
+    , y:100
+    },
+    { name:"Table 3"
+    , columns : ["S1","S2","S4","Date"]
+    , x:400
+    , y:100
+    },
+];
+
+var joins = [
+    { left: { table:"Table 1" }, right: { table: "Table 2" }},
+    { left: { table:"Table 2" }, right: { table: "Table 3" }},
+];
+
+function mkTables( nodes, tables ) {
+    return tables.map( (table) => { mkTable( nodes, table ) } )
+}
 
 console.log(telems);
 
