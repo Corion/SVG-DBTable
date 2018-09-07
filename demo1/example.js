@@ -24,8 +24,21 @@ function mkTable(svg,tableInfo) {
     var b = t.rbox();
     var border = svg.rect(b.width, b.height).move(b.x,b.y).attr({"fill":"white","stroke":"black"});
     var g = svg.group().draggy();
-    g.add(border);        
-    g.add(t);        
+    g.add(border);
+    g.add(t);
+
+    if( tableInfo.x || tableInfo.y ) {
+        g.move( tableInfo.x, tableInfo.y );
+    };
+
+    g.on('dragend', (event) => {
+        // Save the new coordinates in the backend
+        var info = {
+            from : { x: null, y: null },
+            to   : { x: event.detail.event.pageX, y: event.detail.event.pageY }
+        };
+        console.log("Moved: "+name+" to ",info,event.detail);
+    });
     return g;
 }
 
