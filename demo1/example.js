@@ -13,8 +13,8 @@ function mkTable(svg,tableInfo) {
     if(! telems[name]) { telems[name] = {} };
     var colrefs = telems[name];
     var t = svg.text((t) => {
-        t.tspan(name).attr({"x":0, "y":0,"fill":"crimson","font-weight":"bold"});
-        var ofs = 0;
+        t.tspan(name).attr({"x":0, "y":10,"fill":"crimson","font-weight":"bold"});
+        var ofs = 15;
         for (var c in columns) {
             var n = columns[c];
             colrefs[n] =
@@ -22,7 +22,7 @@ function mkTable(svg,tableInfo) {
         }
     });
     t.fill("#E91E63").opacity(0.6);
-    var b = t.rbox();
+    var b = t.bbox();
     var border = svg.rect(b.width, b.height).move(b.x,b.y).attr({"fill":"white","stroke":"black"});
     var g = svg.group().draggy();
     g.add(border);
