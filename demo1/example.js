@@ -5,6 +5,7 @@ var nodes = svg.group();
 var defs = svg.defs();
 
 var telems = {};
+var svgTables = {};
 
 function mkTable(svg,tableInfo) {
     var name = tableInfo.name;
@@ -26,6 +27,8 @@ function mkTable(svg,tableInfo) {
     var g = svg.group().draggy();
     g.add(border);
     g.add(t);
+
+    svgTables[ name ] = g;
 
     if( tableInfo.x || tableInfo.y ) {
         g.move( tableInfo.x, tableInfo.y );
@@ -59,35 +62,34 @@ var tables = [
 ];
 
 var joins = [
-    { left: { table:"Table 1" }, right: { table: "Table 2" }},
-    { left: { table:"Table 2" }, right: { table: "Table 3" }},
+    { left: "Table 1", right: "Table 2", columns:[{left:"",right:""}] },
+    { left: "Table 2", right: "Table 3", columns:[{left:"",right:""}] },
 ];
 
 function mkTables( nodes, tables ) {
     return tables.map( (table) => { mkTable( nodes, table ) } )
 }
 
-console.log(telems);
+function mkJoin( nodes, join ) {
+    var tableL = svgTables[ join.left ];
+    var tableR = svgTables[ join.right ];
+    var conn1 = tableL.connectable({
+        container: links,
+        markers: markers,
+        marker: 'default',
+        targetAttach: 'perifery',
+        sourceAttach: 'perifery',
+        //color: '#2a88c9'
+    }, tableR );
+    conn1.setMarker('default',markers);
 
-var conn1 = myTable.connectable({
-    container: links,
-    markers: markers,
-    marker: 'default',
-    targetAttach: 'perifery',
-    sourceAttach: 'perifery',
-    //color: '#2a88c9'
-}, myTable2);
-conn1.setMarker('default',markers);
+}
 
-var conn2 = myTable2.connectable({
-    //container: myTable2,
-    markers: markers,
-    targetAttach: 'perifery',
-    sourceAttach: 'perifery',
-    type: 'curved'
-},myTable3);
+function mkJoins( nodes, joins ) {
+    joins.map( (join) => { mkJoin( nodes, join )})
+}
 
-//conn2.setConnectorColor("#00ff4a");
-conn2.setMarker('default',markers);
+mkTables( nodes, tables );
+mkJoins( nodes, joins );
 
-//var connectorInUse = nodes.use(connector)
+// console.log(telems);
