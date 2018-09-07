@@ -6,12 +6,32 @@ var defs = svg.defs();
 
 var telems = {};
 var svgTables = {};
+var sections = {};
+
+function sizeSection(section) {
+    // Also add a section title in the middle of the BB
+    var s = sections[section];
+    console.log(s);
+    var b = s.border;
+    var bb = s.group[0].rbox();
+    s.group.map( (p) => ( bb = bb.merge( p.rbox() )) );
+    console.log( bb );
+    b.move( bb.x-15, bb.y-15 ).attr({ width:bb.width+15,height:bb.height+15 });
+}
 
 function mkTable(svg,tableInfo) {
     var name = tableInfo.name;
     var columns = tableInfo.columns;
     if(! telems[name]) { telems[name] = {} };
     var colrefs = telems[name];
+
+    if( ! sections[ tableInfo.section ]) {
+        sections[ tableInfo.section ] = {
+            border: svg.rect().attr({"fill":"white","stroke":"red","stroke-dasharray":"4"}),
+            group: [],
+        };
+    };
+
     var t = svg.text((t) => {
         t.tspan(name).attr({"x":0, "y":10,"fill":"crimson","font-weight":"bold"});
         var ofs = 15;
@@ -27,6 +47,7 @@ function mkTable(svg,tableInfo) {
     var g = svg.group().draggy();
     g.add(border);
     g.add(t);
+    sections[ tableInfo.section ].group.push( g );
 
     svgTables[ name ] = g;
 
@@ -34,6 +55,7 @@ function mkTable(svg,tableInfo) {
         g.move( tableInfo.x, tableInfo.y );
     };
 
+    sizeSection( tableInfo.section );
     g.on('dragend', (event) => {
         // Save the new coordinates in the backend
         var info = {
@@ -43,6 +65,7 @@ function mkTable(svg,tableInfo) {
         console.log("Moved: "+name+" to ",info,event.detail);
 
         // Also update borders around table groups via group.bbox()
+        sizeSection( tableInfo.section );
 
     });
     return g;
@@ -51,14 +74,17 @@ function mkTable(svg,tableInfo) {
 var tables = [
     { name:"Table 1"
     , columns:["S1","S2","Langespalte 3"]
+    , section: 1
     },
     { name:"Table 2"
     , columns:["S1","S2","Langespalte 3a"]
+    , section: 1
     , x:100
     , y:100
     },
     { name:"Table 3"
     , columns : ["S1","S2","S4","Date"]
+    , section: 2
     , x:400
     , y:100
     },
