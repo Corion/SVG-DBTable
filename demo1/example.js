@@ -12,9 +12,9 @@ function mkTable(svg,tableInfo) {
     var columns = tableInfo.columns;
     if(! telems[name]) { telems[name] = {} };
     var colrefs = telems[name];
-    var t = svg.text(function(t) {
-        t.tspan(name).attr({"x":0, "y":0,"fill":"crimson","font-weight":"bold","text-anchor":"top"});
-        var ofs = 45;
+    var t = svg.text((t) => {
+        t.tspan(name).attr({"x":0, "y":0,"fill":"crimson","font-weight":"bold"});
+        var ofs = 0;
         for (var c in columns) {
             var n = columns[c];
             colrefs[n] =
