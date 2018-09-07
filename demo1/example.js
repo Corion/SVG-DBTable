@@ -17,6 +17,22 @@ function sizeSection(section) {
     s.group.map( (p) => ( bb = bb.merge( p.rbox() )) );
     console.log( bb );
     b.move( bb.x-15, bb.y-15 ).attr({ width:bb.width+15,height:bb.height+15 });
+    s.title.move( (b.x - s.title.width)/2, b.y );
+}
+
+function mkSection(svg, info) {
+    var border = svg.rect().attr({"fill-opacity":0,"stroke":"red","stroke-dasharray":"4"});
+    var title = svg.text(info);
+    // Should we group those?!
+    var g = svg.group();
+    g.add( border );
+    g.add( title );
+    return {
+            border: border,
+            title: title,
+            g: g,
+            group: [],
+    };
 }
 
 function mkTable(svg,tableInfo) {
@@ -26,10 +42,7 @@ function mkTable(svg,tableInfo) {
     var colrefs = telems[name];
 
     if( ! sections[ tableInfo.section ]) {
-        sections[ tableInfo.section ] = {
-            border: svg.rect().attr({"fill":"white","stroke":"red","stroke-dasharray":"4"}),
-            group: [],
-        };
+        sections[ tableInfo.section ] = mkSection( svg, tableInfo.section );
     };
 
     var t = svg.text((t) => {
@@ -74,17 +87,17 @@ function mkTable(svg,tableInfo) {
 var tables = [
     { name:"Table 1"
     , columns:["S1","S2","Langespalte 3"]
-    , section: 1
+    , section: "System A"
     },
     { name:"Table 2"
     , columns:["S1","S2","Langespalte 3a"]
-    , section: 1
+    , section: "System A"
     , x:100
     , y:100
     },
     { name:"Table 3"
     , columns : ["S1","S2","S4","Date"]
-    , section: 2
+    , section: "System B"
     , x:400
     , y:100
     },
