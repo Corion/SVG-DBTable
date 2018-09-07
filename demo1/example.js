@@ -6,7 +6,9 @@ var defs = svg.defs();
 
 var telems = {};
 
-function mkTable(svg,name,columns) {
+function mkTable(svg,tableInfo) {
+    var name = tableInfo.name;
+    var columns = tableInfo.columns;
     if(! telems[name]) { telems[name] = {} };
     var colrefs = telems[name];
     var t = svg.text(function(t) {
@@ -27,10 +29,9 @@ function mkTable(svg,name,columns) {
     return g;
 }
 
-
-var myTable  = mkTable(nodes,"Table 1",["S1","S2","Langespalte 3"]);
-var myTable2 = mkTable(nodes,"Table 2",["S1","S2","Langespalte 3a"]);
-var myTable3 = mkTable(nodes,"Table 3",["S1","S2","S4","Date"]);
+var myTable  = mkTable(nodes,{ name:"Table 1", columns:["S1","S2","Langespalte 3"]});
+var myTable2 = mkTable(nodes,{ name:"Table 2", columns:["S1","S2","Langespalte 3a"], x:100, y:100});
+var myTable3 = mkTable(nodes,{ name:"Table 3", columns:["S1","S2","S4","Date"], x:400, y:100});
 
 console.log(telems);
 
