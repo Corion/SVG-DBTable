@@ -11,13 +11,11 @@ var sections = {};
 function sizeSection(section) {
     // Also add a section title in the middle of the BB
     var s = sections[section];
-    console.log(s);
     var b = s.border;
     var bb = s.group[0].rbox();
     s.group.map( (p) => ( bb = bb.merge( p.rbox() )) );
-    console.log( bb );
     b.move( bb.x-15, bb.y-15 ).attr({ width:bb.width+15,height:bb.height+15 });
-    s.title.move( (b.x - s.title.width)/2, b.y );
+    s.title.move( b.x()+(b.width() - s.title.width()) / 2, b.y() );
 }
 
 function mkSection(svg, info) {
