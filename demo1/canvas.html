@@ -4,8 +4,38 @@
 <script type="text/javascript" src="svg.js"></script>
 <script type="text/javascript" src="svg.draggy.min.js"></script>
 <script type="text/javascript" src="svg.connectable.js"></script>
+<script>
+var tables = [
+    { name:"Table 1"
+    , columns:["S1","S2","Langespalte 3"]
+    , section: "System A"
+    },
+    { name:"Table 2"
+    , columns:["S1","S2","Langespalte 3a"]
+    , section: "System A"
+    , x:100
+    , y:100
+    },
+    { name:"Table 3"
+    , columns : ["S1","S2","S4","Date"]
+    , section: "System B"
+    , x:400
+    , y:100
+    },
+];
+
+var joins = [
+    { left: "Table 1", right: "Table 2", columns:[{left:"col_a",right:"col_b"}] },
+    { left: "Table 2", right: "Table 3", columns:[{left:"col_c",right:"col_c"},{left:"col_d",right:"col_d"}] },
+];
+
+function setupGraph() {
+    mkTables( nodes, tables );
+    mkJoins( nodes, joins );
+}
+</script>
 </head>
-<body>
+<body onload="javascript:setupGraph()">
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg1">
 </svg>
 <script type="text/javascript" src="example.js"></script>

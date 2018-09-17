@@ -82,30 +82,6 @@ function mkTable(svg,tableInfo) {
     return g;
 }
 
-var tables = [
-    { name:"Table 1"
-    , columns:["S1","S2","Langespalte 3"]
-    , section: "System A"
-    },
-    { name:"Table 2"
-    , columns:["S1","S2","Langespalte 3a"]
-    , section: "System A"
-    , x:100
-    , y:100
-    },
-    { name:"Table 3"
-    , columns : ["S1","S2","S4","Date"]
-    , section: "System B"
-    , x:400
-    , y:100
-    },
-];
-
-var joins = [
-    { left: "Table 1", right: "Table 2", columns:[{left:"",right:""}] },
-    { left: "Table 2", right: "Table 3", columns:[{left:"",right:""}] },
-];
-
 function mkTables( nodes, tables ) {
     return tables.map( (table) => { mkTable( nodes, table ) } )
 }
@@ -128,9 +104,6 @@ function mkJoin( nodes, join ) {
 function mkJoins( nodes, joins ) {
     joins.map( (join) => { mkJoin( nodes, join )})
 }
-
-mkTables( nodes, tables );
-mkJoins( nodes, joins );
 
 function exportAsSvg() {
     var svg_blob = new Blob([svg.svg()],
