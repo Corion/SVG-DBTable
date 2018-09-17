@@ -132,4 +132,11 @@ function mkJoins( nodes, joins ) {
 mkTables( nodes, tables );
 mkJoins( nodes, joins );
 
+function exportAsSvg() {
+    var svg_blob = new Blob([svg.svg()],
+                            {'type': "image/svg+xml"});
+    var url = URL.createObjectURL(svg_blob);
+    var svg_win = window.open(url, "svg_win");
+}
+
 // console.log(telems);
