@@ -20,11 +20,13 @@ sub fetch_catalog {
             { name => "Table 1"
             , columns => ["S1","S2","Langespalte 3"]
             , section =>  "System A"
+            , x => 10
+            , y => 100
             },
             { name => "Table 2"
             , columns => ["S1","S2","Langespalte 3a"]
             , section =>  "System A"
-            , x => 100
+            , x => 200
             , y => 100
             },
             { name => "Table 3"
