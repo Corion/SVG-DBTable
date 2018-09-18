@@ -1,6 +1,6 @@
 # SVG::DBTable
 
-[Database table layout as SVG image](images/demo.png)
+![Database table layout as SVG image](images/demo.png)
 
 Display (DBI) catalog information as SVG
 
