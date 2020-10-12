@@ -67,6 +67,14 @@ function mkTable(svg,tableInfo) {
     };
 
     sizeSection( tableInfo.section );
+    g.on('dragmove', function(event) {
+        // Broadcast new position, every 0.5 seconds
+        var info = {
+            from : { x: null, y: null },
+            to   : { x: event.detail.event.pageX, y: event.detail.event.pageY }
+        };
+        console.log("Moving: "+name+" at ",info,event.detail);
+    });
     g.on('dragend', (event) => {
         // Save the new coordinates in the backend
         var info = {
@@ -74,7 +82,9 @@ function mkTable(svg,tableInfo) {
             to   : { x: event.detail.event.pageX, y: event.detail.event.pageY }
         };
         console.log("Moved: "+name+" to ",info,event.detail);
-        
+
+        // Broadcast new position of item
+
         // Also update borders around table groups via group.bbox()
         sizeSection( tableInfo.section );
 
