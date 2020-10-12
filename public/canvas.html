@@ -32,7 +32,7 @@ var joins = [
 function setupGraph() {
     var request = new XMLHttpRequest();
     request.open('GET', '/catalog', true);
-    
+
     request.onload = function() {
       if (request.status >= 200 && request.status < 400) {
         // Success!
@@ -44,11 +44,11 @@ function setupGraph() {
         alert("Error",request);
       }
     };
-    
+
     request.onerror = function() {
       // There was a connection error of some sort
     };
-    
+
     request.send();
 }
 </script>
