@@ -10,6 +10,14 @@ get '/' => sub {
     $c->redirect('canvas.html');
 };
 
+# Content-Security-Policy: default-src 'self'
+get '/canvas.html' => sub {
+    my( $c ) = @_;
+    $c->res->headers->content_security_policy("default-src 'self'");
+    $c->reply->static('canvas.html');
+};
+
+
 post '/move' => sub {
     my( $c ) = @_;
 };
@@ -42,7 +50,7 @@ sub fetch_catalog {
             , y => 100
             },
         ],
-        
+
         joins => [
             { "left" => "Table 1", right => "Table 2", columns => [{left => "col_a",right => "col_b"}] },
             { "left" => "Table 2", right => "Table 3", columns => [{left => "col_c",right => "col_c"},{left => "col_d",right => "col_d"}] },

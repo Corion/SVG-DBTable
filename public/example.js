@@ -1,3 +1,5 @@
+"use strict";
+
 var svg = SVG('svg1').size("100%", 900);
 var links = svg.group();
 var markers = svg.group();
@@ -121,5 +123,51 @@ function exportAsSvg() {
     var url = URL.createObjectURL(svg_blob);
     window.location = url;
     // var svg_win = window.open(url, "svg_win");
+}
+
+function mkNote(svg,noteInfo) {
+    let t = svg.text((t) => {
+        t.tspan("Hello world").attr({"x":0, "y":10,"fill":"crimson","font-weight":"bold"});
+        let ofs = 15;
+    });
+    t.fill("#E91E63").opacity(0.6);
+    var b = t.bbox();
+    var border = svg.rect(b.width, b.height).move(b.x,b.y).attr({"fill":"white","stroke":"black"});
+    var g = svg.group().draggy();
+    g.add(border);
+    g.add(t);
+
+    // XXX make text editable on click
+    // https://stackoverflow.com/questions/9308938/inline-text-editing-in-svg/26644652
+
+    if( noteInfo.x || noteInfo.y ) {
+        g.move( tableInfo.x, tableInfo.y );
+    };
+
+    // This should go into "mkDraggable()" or something
+    g.on('dragmove', function(event) {
+        // Broadcast new position, every 0.5 seconds
+        var info = {
+            from : { x: null, y: null },
+            to   : { x: event.detail.event.pageX, y: event.detail.event.pageY }
+        };
+        console.log("Moving: "+name+" at ",info,event.detail);
+    });
+    g.on('dragend', (event) => {
+        // Save the new coordinates in the backend
+        var info = {
+            from : { x: null, y: null },
+            to   : { x: event.detail.event.pageX, y: event.detail.event.pageY }
+        };
+        console.log("Moved: "+name+" to ",info,event.detail);
+
+        // Broadcast new position of item
+
+    });
+    return g;
+}
+
+function createNote() {
+    let note = mkNote(svg, {});
 }
 // console.log(telems);
