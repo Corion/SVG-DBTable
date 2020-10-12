@@ -43,9 +43,9 @@ function mkTable(svg,tableInfo) {
         sections[ tableInfo.section ] = mkSection( svg, tableInfo.section );
     };
 
-    var t = svg.text((t) => {
+    let t = svg.text((t) => {
         t.tspan(name).attr({"x":0, "y":10,"fill":"crimson","font-weight":"bold"});
-        var ofs = 15;
+        let ofs = 15;
         for (var c in columns) {
             var n = columns[c];
             colrefs[n] =
